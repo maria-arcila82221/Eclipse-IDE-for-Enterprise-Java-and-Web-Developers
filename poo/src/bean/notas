@@ -1,0 +1,5 @@
+secuencial para estructura de un objeto o registro especifico
+aleatorio para exactamente lo mismo
+serializado para extraer datos especificos, los extraigo guardo ahi y mando. no sirve para guardar registros. EL SERIALIZADO ES PARA TRANSMITIR INFORMACION.
+
+EL PROYECTO DEBE MANEJAR LOS TRES CONCEPTOS
