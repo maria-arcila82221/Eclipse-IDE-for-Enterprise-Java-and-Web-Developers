@@ -1,11 +1,18 @@
 package bean;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Usuario {
+import interfaces.Componentes;
 
-	int codigo; //el codigo viene a ser el nombre de usuario
-	String nombre;
+public class Usuario implements Componentes, Serializable, Comparable<Usuario> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int codigo; //el codigo viene a ser el nombre de usuario
+	private String nombre;
 	
 	public Usuario() {
 		codigo = 0;
@@ -31,6 +38,16 @@ public class Usuario {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	@Override
+	public String toString() {
+		return codigo + " - " + nombre;
+	}
+	
+	@Override
+	public int compareTo(Usuario usuario) {
+		return Integer.compare(this.codigo, usuario.getCodigo());
 	}
 	
 }

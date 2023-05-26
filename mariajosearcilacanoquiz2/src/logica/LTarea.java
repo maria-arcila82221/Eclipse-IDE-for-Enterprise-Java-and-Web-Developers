@@ -7,11 +7,87 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 import bean.*;
+import utilidades.TratamientoArchivo;
 import vista.*;
 
 public class LTarea {
 
-	public int validarCodigonuevo(String t){
+	public ArrayList<Tarea> registros = new ArrayList<>();
+	private String file = "./datos/Tareas.txt";
+	
+	public LTarea() throws IOException {
+		TratamientoArchivo t = new TratamientoArchivo();
+		
+		if(t.existe(file))
+			registros = t.ordenarCodigos(archivoAarrayList());
+	}
+	
+	public void Insertar(Tarea tarea) throws IOException {
+		RandomAccessFile archivo = new RandomAccessFile(file,"rw");
+		
+		archivo.seek(archivo.length());
+		archivo.writeInt(tarea.getCodigo());
+		archivo.writeUTF(tarea.getTarea());
+		archivo.writeInt(tarea.getUsuario().getCodigo());
+		archivo.close();
+	}
+	
+	public int validarCodigonuevo(String t){ //no exista
+		int cedula = 0;
+		Scanner datos = new Scanner(System.in);
+			
+		do {
+			Iterator<Tarea> apuntador = registros.iterator();
+			
+			System.out.println(t);
+			cedula = datos.nextInt();
+			datos.nextLine();
+			
+			while(apuntador.hasNext()) {
+				Tarea tarea = apuntador.next();
+				
+				if(tarea.getCodigo()==cedula || cedula<=0) {
+					System.out.println("Ingrese un codigo no existente o diferente de cero o no negativa");
+					
+					cedula = -1;
+					
+					break;
+				}
+			}
+		} while(cedula == -1);
+		
+		return cedula;
+    }
+	
+	public int validarCodigoviejo(String t){ //exista
+		int cedula = 0;
+		Scanner datos = new Scanner(System.in);
+
+		do {
+			Iterator<Tarea> apuntador = registros.iterator();
+			
+			System.out.println(t);
+			cedula = datos.nextInt();
+			datos.nextLine();
+			
+			while(apuntador.hasNext()) {
+				Tarea tarea = apuntador.next();
+				
+				if (tarea.getCodigo() == cedula) 
+			        break;
+
+			    if (!apuntador.hasNext()) {
+			        System.out.println("El codigo no existe, inserte otra");
+			        
+			        cedula = -1;
+			    }
+			}
+		} while(cedula == -1);
+		
+		return cedula;
+    }
+	
+	/*public int validarCodigonuevo(String t){
 		int codigo = 0;
 		Scanner datos = new Scanner(System.in);
 		
@@ -103,9 +179,9 @@ public class LTarea {
 		}
 		
 		return codigo;
-    }
+    }*/
 	
-	public Tarea Buscar(int buscar) {
+	/*public Tarea Buscar(int buscar) {
 		ArrayList<Tarea> registros = archivoAarrayList();
 		Iterator<Tarea> apuntadorLista = registros.iterator();
 		Tarea tarea = new Tarea();
@@ -153,6 +229,29 @@ public class LTarea {
 			e.printStackTrace();
 			System.out.println("Ocurrio un error");
 		}
+		
+		return registros;
+	}*/
+	
+	public Tarea Buscar(int buscar) {
+		for(Tarea tarea : registros) {
+			if(tarea.getCodigo() == buscar)
+				return tarea;
+		}
+		
+		return null;
+	}
+	
+	public ArrayList<Tarea> archivoAarrayList() throws IOException {
+		RandomAccessFile archivo = new RandomAccessFile(file,"r");
+		LUsuario lusuario = new LUsuario();
+		
+		archivo.seek(0);
+		
+		while(archivo.getFilePointer() < archivo.length())
+			registros.add(new Tarea(archivo.readInt(), archivo.readUTF(), lusuario.Buscar(archivo.readInt())));
+		
+		archivo.close();
 		
 		return registros;
 	}

@@ -1,24 +1,95 @@
 package logica;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
 import bean.*;
+import utilidades.TratamientoArchivo;
 import vista.*;
 
 public class LProyecto {
 
-	public void Insertar(int codigo, Tarea tarea) {
+	public ArrayList<Proyecto> registros = new ArrayList<>();
+	private String file = "./datos/Proyectos.txt";
+	
+	public LProyecto() throws IOException {
+		TratamientoArchivo t = new TratamientoArchivo();
+		
+		if(t.existe(file))
+			registros = t.ordenarCodigos(archivoAarrayList());
+	}
+	
+	public int validarCodigonuevo(String t){ //no exista
+		int cedula = 0;
+		Scanner datos = new Scanner(System.in);
+			
+		do {
+			Iterator<Proyecto> apuntador = registros.iterator();
+			
+			System.out.println(t);
+			cedula = datos.nextInt();
+			datos.nextLine();
+			
+			while(apuntador.hasNext()) {
+				Proyecto proyecto = apuntador.next();
+				
+				if(proyecto.getCodigo()==cedula || cedula<=0) {
+					System.out.println("Ingrese un codigo no existente o diferente de cero o no negativa");
+					
+					cedula = -1;
+					
+					break;
+				}
+			}
+		} while(cedula == -1);
+		
+		return cedula;
+    }
+	
+	public int validarCodigoviejo(String t){ //exista
+		int cedula = 0;
+		Scanner datos = new Scanner(System.in);
+
+		do {
+			Iterator<Proyecto> apuntador = registros.iterator();
+			
+			System.out.println(t);
+			cedula = datos.nextInt();
+			datos.nextLine();
+			
+			while(apuntador.hasNext()) {
+				Proyecto proyecto = apuntador.next();
+				
+				if (proyecto.getCodigo() == cedula) 
+			        break;
+
+			    if (!apuntador.hasNext()) {
+			        System.out.println("El codigo no existe, inserte otra");
+			        
+			        cedula = -1;
+			    }
+			}
+		} while(cedula == -1);
+		
+		return cedula;
+    }
+	
+	/*public void Insertar(int codigo, String nombre, Tarea tarea) {
 		try
 		{
-			RandomAccessFile archivo = new RandomAccessFile("./datos/Proyecto.txt","rw");
+			RandomAccessFile archivo = new RandomAccessFile("./datos/Proyectos.txt","rw");
 			
 			archivo.seek(archivo.length());
 			archivo.writeInt(codigo);
+			archivo.writeUTF(nombre);
 			archivo.writeInt(tarea.getCodigo());
 			archivo.close();
 		}
@@ -27,9 +98,92 @@ public class LProyecto {
 			System.out.println(e);
 			System.out.println("Ocurrio un error");
 		}
+	}*/
+	public void Insertar(Proyecto proyecto) throws IOException {
+		RandomAccessFile archivo = new RandomAccessFile(file,"rw");
+		
+		archivo.seek(archivo.length());
+		archivo.writeInt(proyecto.getCodigo());
+		archivo.writeUTF(proyecto.getNombre());
+		archivo.writeInt(proyecto.getTarea().getCodigo());
+		archivo.close();
 	}
 	
-	public void Modificar(int modificar) {
+	public Proyecto Buscar(int buscar) {
+		for(Proyecto proyecto : registros) {
+			if(proyecto.getCodigo() == buscar)
+				return proyecto;
+		}
+		
+		return null;
+	}
+	
+	public void Listar() {
+		for(Proyecto proyecto : registros)
+			System.out.println(proyecto);
+	}
+	
+	public void Listar(String d) throws IOException {
+		RandomAccessFile archivo = new RandomAccessFile(d,"r");
+		LTarea ltarea = new LTarea();
+		
+		archivo.seek(0);
+		
+		while(archivo.getFilePointer() < archivo.length()) {
+			Proyecto proyecto = new Proyecto();
+			proyecto.setCodigo(archivo.readInt());
+			proyecto.setNombre(archivo.readUTF());
+			proyecto.setTarea(ltarea.Buscar(archivo.readInt()));
+			
+			System.out.println(proyecto);
+		}
+		
+		archivo.close();
+	}
+	
+	public void Serializar() throws IOException {
+		Proyecto[] sregistros = new Proyecto[registros.size()];
+		
+		for(int i=0; i<registros.size(); i++) {
+			sregistros[i] = new Proyecto();
+			sregistros[i].setCodigo(registros.get(i).getCodigo());
+			sregistros[i].setNombre(registros.get(i).getNombre());
+			sregistros[i].setTarea(registros.get(i).getTarea());
+		}
+
+		ObjectOutputStream archivo_salida = new ObjectOutputStream(new FileOutputStream("./datos/ProyectosSerializado.txt"));
+		//se puede usar .dat?
+		archivo_salida.writeObject(sregistros);
+		archivo_salida.close();
+	}
+	
+	public void Deserializar() throws IOException, ClassNotFoundException {
+		ObjectInputStream leer_datos = new ObjectInputStream(new FileInputStream("./datos/ProyectosSerializado.txt"));
+		Proyecto[] datos_leidos = (Proyecto[]) leer_datos.readObject();
+		
+		leer_datos.close();
+		
+		for(Proyecto proyecto : datos_leidos)
+			System.out.println(proyecto);
+	}
+	
+	public ArrayList<Proyecto> archivoAarrayList() throws IOException {
+		LTarea ltarea = new LTarea();
+		TratamientoArchivo t = new TratamientoArchivo(); 
+
+		RandomAccessFile archivo = new RandomAccessFile(file,"r");
+		
+		archivo.seek(0);
+		
+		while(archivo.getFilePointer() < archivo.length())
+			registros.add(new Proyecto(archivo.readInt(), archivo.readUTF(), ltarea.Buscar(archivo.readInt())));
+		
+		archivo.close();
+		
+		return registros;
+	}
+	
+	/*public void Modificar(int modificar) {
 		Scanner datos = new Scanner(System.in);
 		ArrayList<Proyecto> registros = archivoAarrayList();
 		Iterator<Proyecto> apuntadorLista = registros.iterator();
@@ -286,6 +440,6 @@ public class LProyecto {
 		}
 		
 		return codigo;
-    }
+    }*/
 	
 }
