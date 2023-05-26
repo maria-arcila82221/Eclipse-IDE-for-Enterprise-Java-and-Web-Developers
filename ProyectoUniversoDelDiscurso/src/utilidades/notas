@@ -1,0 +1,9 @@
+como pienso:
+
+-Proyecto
+	-Tarea
+		-Usuario
+		
+. el estado se puede guardar en un archivo secuencial con un codigo, asi el codigo asignado indica estado asignado
+. ya los demas mediante variables que se guardan en un archivo aleatorio(las tres primeras clases principales van guardadas en un aleatorio para su clase)
+. al final, el proyecto se da como resultado final y es el serializable
