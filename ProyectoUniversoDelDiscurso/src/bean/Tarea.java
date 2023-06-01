@@ -4,12 +4,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Tarea {
-	
+
+	private int codigo;
 	private String nombre;
 	private LocalDate inicio;
 	private LocalDate fin;
 	private String estado;
-	private int codigo;
 	private ArrayList<Usuario> usuarios;
 	
 }

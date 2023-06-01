@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
-	
-	private String nombre;
+
 	private int codigo; //username
+	private String nombre;
 	
 }
 

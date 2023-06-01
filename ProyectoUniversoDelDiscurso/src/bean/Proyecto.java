@@ -5,16 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Proyecto {
-	
+
+	private int codigo;
 	private String nombre;
 	private String descripcion;
 	private LocalDate inicio;
 	private LocalDate fin;
 	private Estado estado;
 	private ArrayList<Tarea> tareas;
-	private int codigo;
 	
 }
+
 /*public class Proyecto {
 
 	private String nombre;
@@ -33,3 +34,6 @@ public class Proyecto {
 //archivo serializado: datos de las entidades serializadas(en este caso proyecto)
 
 //la serializacion sirve para compactar y asi facilitar su envio a traves de algun medio
+
+
+//el border layout divide la pantalla en 5 partes
