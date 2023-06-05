@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -14,8 +15,25 @@ import javax.swing.JTextField;
 /*permite que esta clase escuche todo lo que pasa dentro de ella: lo que pasa con los objetos dentro de la clase*/
 public class PanelPrincipal extends JPanel implements ActionListener {
 
+	private JFrame frame;
+	private JTextField textUsuario;
+	private JTextField textClave;
+	
 	public PanelPrincipal() {
 
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	private void initialize() {
+		frame = new JFrame();
+		//frame.setBackground(new Color(colorR, colorG, colorRGB));
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		PanelPrincipal panelSuperior = new PanelPrincipal();
 		frame.getContentPane().setLayout(new BorderLayout());
 		frame.getContentPane().add(panelSuperior, BorderLayout.NORTH);
@@ -65,13 +83,8 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 		JPanel panelInferior = new JPanel();
 		frame.getContentPane().add(panelInferior, BorderLayout.SOUTH);
 		panelInferior.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	
+	
 }
