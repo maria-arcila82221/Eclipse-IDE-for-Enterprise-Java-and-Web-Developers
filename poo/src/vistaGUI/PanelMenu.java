@@ -58,6 +58,19 @@ public class PanelMenu extends JPanel {
 		
 		JPanel panelOperacion = new JPanel();
 		add(panelOperacion, BorderLayout.CENTER);
+		panelOperacion.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel = new JLabel(" ");
+		panelOperacion.add(lblNewLabel, BorderLayout.NORTH);
+		
+		JLabel lblNewLabel_1 = new JLabel(" ");
+		panelOperacion.add(lblNewLabel_1, BorderLayout.SOUTH);
+		
+		JLabel lblNewLabel_2 = new JLabel(" ");
+		panelOperacion.add(lblNewLabel_2, BorderLayout.WEST);
+		
+		JLabel lblNewLabel_3 = new JLabel(" ");
+		panelOperacion.add(lblNewLabel_3, BorderLayout.EAST);
 
 	}
 

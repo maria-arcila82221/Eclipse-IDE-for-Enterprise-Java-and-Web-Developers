@@ -11,24 +11,87 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /*permite que esta clase escuche todo lo que pasa dentro de ella: lo que pasa con los objetos dentro de la clase*/
-public class PanelPrincipal extends JPanel implements ActionListener {
-
-	private JFrame frame;
-	private JTextField textUsuario;
-	private JTextField textClave;
+public class PanelPrincipal extends JPanel {
 	
 	public PanelPrincipal() {
 
+		setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.CENTER);
+		
+		JPanel panel_1 = new JPanel();
+		
+		JPanel hola = new JPanel();
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+				.addComponent(hola, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(hola, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
+		);
+		hola.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		hola.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 98));
+		lblNewLabel.setForeground(new Color(0, 255, 0));
+		lblNewLabel.setBackground(new Color(0, 255, 0));
+		
+		JButton chao = new JButton("New button");
+		chao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				PanelMenu j=new PanelMenu();
+				hola.removeAll();
+				hola.add(j);
+				revalidate();
+				repaint();
+			}
+		});
+		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+		gl_panel_1.setHorizontalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(lblNewLabel, GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(161)
+							.addComponent(chao)))
+					.addContainerGap())
+		);
+		gl_panel_1.setVerticalGroup(
+			gl_panel_1.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_1.createSequentialGroup()
+					.addComponent(chao)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 66, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		panel_1.setLayout(gl_panel_1);
+		panel.setLayout(gl_panel);
+		
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-	}
-
-	private void initialize() {
+	/*private void initialize() {
 		frame = new JFrame();
 		//frame.setBackground(new Color(colorR, colorG, colorRGB));
 		frame.setBounds(100, 100, 450, 300);
@@ -83,8 +146,11 @@ public class PanelPrincipal extends JPanel implements ActionListener {
 		JPanel panelInferior = new JPanel();
 		frame.getContentPane().add(panelInferior, BorderLayout.SOUTH);
 		panelInferior.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-	}
+	}*/
 	
 	
+	
+
+
 	
 }

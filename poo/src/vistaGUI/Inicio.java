@@ -15,7 +15,45 @@ import java.awt.FlowLayout;
 public class Inicio {
 
 	private JFrame frame;
-	private JTextField textUsuario;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Inicio window = new Inicio();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Inicio() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		PanelPrincipal panelPrincipal = new PanelPrincipal();
+		frame.getContentPane().add(panelPrincipal,BorderLayout.CENTER);
+	}
+
+
+	
+	/*private JTextField textUsuario;
 	private JTextField textClave;
 
 	public static void main(String[] args) {
@@ -91,6 +129,6 @@ public class Inicio {
 		frame.getContentPane().add(panelInferior, BorderLayout.SOUTH);
 		panelInferior.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-	}
+	}*/
 
 }
